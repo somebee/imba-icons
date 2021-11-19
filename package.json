@@ -1,0 +1,14 @@
+{
+    "name": "imba-codicons",
+    "version": "0.0.1",
+    "description": "codicons for use with imba",
+    "author": "Sindre Aarsaether <sindre@identu.no>",
+    "sideEffects": false,
+    "scripts": {
+        "build": "imba generate.imba"
+    },
+    "devDependencies": {
+        "imba": "^2.0.0-alpha.188",
+        "svgo": "^2.8.0"
+    }
+}
