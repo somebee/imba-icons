@@ -1,6 +1,6 @@
 {
   "name": "imba-seti-icons",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "seti icons bundled for Imba",
   "author": "Sindre Aarsaether <sindre@identu.no>",
   "homepage": "https://github.com/somebee/imba-icons#readme",
@@ -20,8 +20,7 @@
     "type": "git",
     "url": "git+https://github.com/somebee/imba-icons.git"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "bugs": {
     "url": "https://github.com/somebee/imba-icons/issues"
   }
