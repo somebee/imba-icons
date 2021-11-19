@@ -1,5 +1,5 @@
 {
-    "name": "imba-codicons",
+    "name": "imba-icons",
     "version": "0.0.1",
     "description": "codicons for use with imba",
     "author": "Sindre Aarsaether <sindre@identu.no>",
@@ -9,6 +9,7 @@
     },
     "devDependencies": {
         "imba": "^2.0.0-alpha.188",
+        "lerna": "^4.0.0",
         "svgo": "^2.8.0"
     }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "imba-seti-icons",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Sindre Aarsaether <sindre@identu.no>",
+  "homepage": "https://github.com/somebee/imba-codicons#readme",
+  "license": "ISC",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib",
+    "index.imba"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/somebee/imba-codicons.git"
+  },
+  "scripts": {
+  },
+  "bugs": {
+    "url": "https://github.com/somebee/imba-codicons/issues"
+  }
+}

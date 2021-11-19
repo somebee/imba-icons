@@ -3,3 +3,4 @@
 .imba-cache
 .vscode
 node_modules
+packages/**/lib

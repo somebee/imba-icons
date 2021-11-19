@@ -2,38 +2,43 @@ import fs from 'fs'
 import np from 'path'
 import {optimize} from 'svgo'
 
-let out = ""
-
 def datauri input
 	input = input.split("\n").map(do $1.trim!).join('')
 	input = input.replace(/currentColor/g,'#3b82f6')
 	return 'data:image/svg+xml;utf8,' + global.encodeURIComponent(input)
 
 
-let files = fs.readdirSync('./sources')
-console.log files
-for src in files
-	let body = fs.readFileSync("./sources/{src}",'utf8')
-	let optim = optimize(body, multipass: true)
-	let name = src.replace(/\.svg$/,'').replace(/[-\.]/g,'Ξ')
-	console.log src, body.length,optim.data.length
+let bundles = [{
+	dir: 'seti-icons'
+	ns: 'SETI'
+},{
+	dir: 'codicons'
+	ns: 'CODICONS'
+}]
 
-	if name.match(/^(export|tag|if|else|const|var|let|const)$/)
-		name = name + "Ξicon"
+for {dir,ns} in bundles
+	let out = `const EXPORT_NS = "{ns}"\n\n`
 
-	# if src == 'triangle-up.svg'
-	# 	console.log body
-	# 	console.log optim.data
+	let files = fs.readdirSync("./sources/{dir}")
+	let outdir = "./packages/imba-{dir}"
+	console.log files
 
-	# out += "/** "
-	
-	# let base = global.btoa(optim.data)
-	let doc = "![]({datauri(optim.data)}|width=120,height=120)"
-	# out += "/** {doc} */"
-	out += "# {doc}\n"
-	out += "export const {name} = import('./assets/codicons/{src}')\n\n"
-	# out += "export \{default as {name}\} from './assets/codicons/{src}'\n"
+	for src in files
+		let body = fs.readFileSync("./sources/{dir}/{src}",'utf8')
+		let optim = optimize(body, multipass: true)
+		let name = src.replace(/\.svg$/,'').replace(/[-\.]/g,'Ξ')
+		console.log src, body.length,optim.data.length
 
-console.log out
-fs.writeFileSync('./index.imba',out)
-	
+		# name = "iconΞ{name}"
+		# if name.match(/^(export|tag|if|else|const|var|let|const)$/)
+		#	name = name + "Ξicon"
+
+		name = name.replace(/Ξ/g,'_').toUpperCase!
+		fs.writeFileSync("{outdir}/lib/{src}",optim.data)
+
+		let doc = "![]({datauri(optim.data)}|width=120,height=120)"
+		out += "# {doc}\n"
+		out += "export const {name} = import('./lib/{src}')\n\n"
+
+	fs.writeFileSync("{outdir}/index.imba",out)
+		

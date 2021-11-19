@@ -1,0 +1,25 @@
+{
+    "name": "imba-codicons",
+    "version": "0.1.0",
+    "description": "codicons bundled for Imba",
+    "author": "Sindre Aarsaether <sindre@identu.no>",
+    "homepage": "https://github.com/somebee/imba-icons#readme",
+    "license": "ISC",
+    "directories": {
+      "lib": "lib"
+    },
+    "files": [
+      "lib",
+      "index.imba"
+    ],
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/somebee/imba-icons.git"
+    },
+    "scripts": {
+    },
+    "bugs": {
+      "url": "https://github.com/somebee/imba-icons/issues"
+    }
+  }
+  
