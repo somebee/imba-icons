@@ -5,6 +5,7 @@
   "author": "Sindre Aarsaether <sindre@identu.no>",
   "homepage": "https://github.com/somebee/imba-icons#readme",
   "license": "ISC",
+  "sideEffects": false,
   "directories": {
     "lib": "lib"
   },

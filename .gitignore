@@ -4,3 +4,7 @@
 .vscode
 node_modules
 packages/**/lib
+sources/material-icons/*/outline.svg
+sources/material-icons/*/round.svg
+sources/material-icons/*/sharp.svg
+sources/material-icons/*/twotone.svg

@@ -1,11 +1,8 @@
-# `imba-material-icons`
-
-> TODO: description
+# imba-material-icons
 
 ## Usage
 
 ```
-const imbaMaterialIcons = require('imba-material-icons');
-
-// TODO: DEMONSTRATE API
+import * as MATERIAL from 'imba-material-icons'
+<svg src=MATERIAL.CLOSE>
 ```
