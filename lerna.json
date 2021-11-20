@@ -1,7 +1,8 @@
 {
   "packages": [
     "packages/imba-codicons",
-    "packages/imba-seti-icons"
+    "packages/imba-seti-icons",
+    "packages/imba-material-icons"
   ],
   "version": "independent"
 }
