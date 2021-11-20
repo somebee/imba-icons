@@ -6,12 +6,13 @@
   "homepage": "https://github.com/somebee/imba-icons#readme",
   "license": "ISC",
   "sideEffects": false,
+  "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "files": [
     "lib",
-    "index.imba"
+    "index.js"
   ],
   "repository": {
     "type": "git",

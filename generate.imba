@@ -9,6 +9,39 @@ def datauri input,pkg
 	input = input.replace(/currentColor/g,'#3b82f6')
 	return 'data:image/svg+xml;utf8,' + global.encodeURIComponent(input)
 
+def parsesvg str
+	let start = str.indexOf('<',1)
+	let end = str.length - 6
+	let content = str.slice(start,end)
+	let pars = str.slice(4,start - 1)
+	let attrs = {}
+	let js = '{'
+
+	pars.replace(/([\w\-]+)\=\"([^\"]+)/g) do(m,k,val)
+		return if k == 'xmlns'
+		attrs[k] = val
+
+		if k.indexOf('-') >= 0
+			k = '"' + k + '"'
+
+		if val.match(/^\d+$/)
+			val = parseInt(val)
+			js += "{k}:{val},"
+		else
+			js += "{k}:\"{val}\","
+
+		
+
+	js = js.replace(/\,$/,'') + '},`' + content + '`'
+
+	# console.log 'content is',content,pars,attrs
+	return {
+		attributes: attrs
+		flags: []
+		content: content
+		#js: js
+	}
+
 
 let bundles = [{
 	dir: 'seti-icons'
@@ -31,14 +64,18 @@ for pkg in bundles
 	let dir = pkg.dir
 	let out = `const EXPORT_NS = "{ns}"\n\n`
 
+	out += fs.readFileSync('./base.js','utf8')
+
+	# continue unless dir == 'codicons'
+
 	let files = fs.readdirSync("./sources/{dir}")
 	let outdir = "./packages/imba-{dir}"
 	console.log files
 
-	for filename in files
+	for filename,i in files
 		continue if filename == ".DS_Store"
+		# break if i > 20
 		let src = "./sources/{dir}/{filename}"
-
 
 		if pkg.filename
 			src += "/{pkg.filename}"
@@ -47,20 +84,19 @@ for pkg in bundles
 		let outbody = body
 		let optim = optimize(body, {multipass: false, removeViewBox: false})
 
-		# if pkg.svgo
-		#	outbody = optim.data
-
 		if !optim.info.width
 			if let viewBox = body.match(/viewBox="0 0 (\d+) (\d+)"/)
 				optim.info.width = parseInt(viewBox[1])
 				optim.info.height = parseInt(viewBox[2])
 
 		if pkg.style
+			# parsed.attributes.style = pkg.style
 			outbody = outbody.replace "<svg ",`<svg style="{pkg.style}" `
-			
-		
+
+		let parsed = parsesvg(outbody)
+
 		let name = filename.replace(/\.svg$/,'').replace(/[-\.]/g,'Ξ')
-		console.log src, body.length,optim.data.length
+		console.log src, body.length,optim.data.length,parsed.#js
 
 		name = name.replace(/Ξ/g,'_').toUpperCase!
 
@@ -72,9 +108,10 @@ for pkg in bundles
 
 		let img = "![]({datauri(outbody,pkg)}|width=120,height=120)\n"
 		
-		out += "# {dir} / {filename} ({optim.info.width}x{optim.info.height})\n"
-		out += "# {img}\n"
-		out += "export const {name} = import('./lib/{outname}')\n\n"
+		out += "/**\n * {dir} / {filename} ({optim.info.width}x{optim.info.height})\n * {img}\n **/\n"
+		# out += "# {img}\n"
+		# out += "export const {name} = import('./lib/{outname}')\n\n"
+		out += "export const {name} = /* @__PURE__ */ new Icon({parsed.#js});\n\n"
 
-	fs.writeFileSync("{outdir}/index.imba",out)
+	fs.writeFileSync("{outdir}/index.js",out)
 		
