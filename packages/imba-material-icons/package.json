@@ -6,14 +6,27 @@
   "homepage": "https://github.com/somebee/imba-icons#readme",
   "license": "ISC",
   "sideEffects": false,
-  "main": "index.js",
-  "directories": {
-    "lib": "lib"
+  "main": "index.cjs",
+  "module": "index.js",
+  "browser": "index.js",
+  "exports": {
+    "./filled": {
+      "module": "./index.js",
+      "default": "./index.cjs"
+    },
+    "./outlined": {
+      "module": "./outlined.js",
+      "default": "./outlined.cjs"
+    },
+    "./round": {
+      "module": "./round.js",
+      "default": "./round.cjs"
+    },
+    "./two-tone": {
+      "module": "./two-tone.js",
+      "default": "./two-tone.cjs"
+    }
   },
-  "files": [
-    "lib",
-    "index.js"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/somebee/imba-icons.git"

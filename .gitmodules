@@ -1,0 +1,6 @@
+[submodule "vendor/codicons"]
+	path = vendor/codicons
+	url = https://github.com/microsoft/vscode-codicons
+[submodule "vendor/material-design-icons"]
+	path = vendor/material-design-icons
+	url = https://github.com/marella/material-design-icons.git

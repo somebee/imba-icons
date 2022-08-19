@@ -50,11 +50,34 @@ let bundles = [{
 },{
 	dir: 'codicons'
 	ns: 'CODICONS'
+	sourcedir: './vendor/codicons/src/icons'
 	svgo:yes
 },{
 	dir: 'material-icons'
+	sourcedir: './vendor/material-design-icons/svg/filled'
 	ns: 'MATERIAL'
-	filename: 'baseline.svg'
+	# filename: 'baseline.svg'
+	style: 'fill:currentColor'
+	svgo:yes
+},{
+	dir: 'material-icons'
+	sourcedir: './vendor/material-design-icons/svg/outlined'
+	ns: 'MATERIAL'
+	subname: 'outlined'
+	style: 'fill:currentColor'
+	svgo:yes
+},{
+	dir: 'material-icons'
+	sourcedir: './vendor/material-design-icons/svg/round'
+	ns: 'MATERIAL'
+	subname: 'round'
+	style: 'fill:currentColor'
+	svgo:yes
+},{
+	dir: 'material-icons'
+	sourcedir: './vendor/material-design-icons/svg/two-tone'
+	ns: 'MATERIAL'
+	subname: 'two-tone'
 	style: 'fill:currentColor'
 	svgo:yes
 }]
@@ -67,15 +90,16 @@ for pkg in bundles
 	out += fs.readFileSync('./base.js','utf8')
 
 	# continue unless dir == 'codicons'
-
-	let files = fs.readdirSync("./sources/{dir}")
+	let srcdir = pkg.sourcedir or "./sources/{dir}"
+	let files = fs.readdirSync(srcdir)
 	let outdir = "./packages/imba-{dir}"
+	let outname = pkg.subname or "index"
 	console.log files
 
 	for filename,i in files
 		continue if filename == ".DS_Store"
 		# break if i > 20
-		let src = "./sources/{dir}/{filename}"
+		let src = "{srcdir}/{filename}"
 
 		if pkg.filename
 			src += "/{pkg.filename}"
@@ -104,7 +128,7 @@ for pkg in bundles
 			name = "_" + name
 
 		let outname = filename.replace(/\.svg$/,'') + '.svg'
-		fs.writeFileSync("{outdir}/lib/{outname}",outbody)
+		# fs.writeFileSync("{outdir}/lib/{outname}",outbody)
 
 		let img = "![]({datauri(outbody,pkg)}|width=120,height=120)\n"
 		
@@ -113,5 +137,6 @@ for pkg in bundles
 		# out += "export const {name} = import('./lib/{outname}')\n\n"
 		out += "export const {name} = /* @__PURE__ */ new Icon({parsed.#js});\n\n"
 
-	fs.writeFileSync("{outdir}/index.js",out)
+	fs.writeFileSync("{outdir}/{outname}.js",out)
+	fs.writeFileSync("{outdir}/{outname}.cjs",out.replace(/export const /g,'exports.'))
 		

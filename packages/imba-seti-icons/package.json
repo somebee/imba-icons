@@ -8,14 +8,11 @@
   "sideEffects": false,
   "importName": "",
   "directories": {
-    "lib": "lib"
   },
-  "main": "index.js",
-  "files": [
-    "lib",
-    "index.imba",
-    "index.js"
-  ],
+  "main": "index.cjs",
+  "module": "index.js",
+  "browser": "index.js",
+  "files": ["index.js","index.cjs"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/somebee/imba-icons.git"
