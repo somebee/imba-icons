@@ -1,18 +1,20 @@
 {
   "name": "imba-seti-icons",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "seti icons bundled for Imba",
   "author": "Sindre Aarsaether <sindre@identu.no>",
   "homepage": "https://github.com/somebee/imba-icons#readme",
   "license": "ISC",
   "sideEffects": false,
   "importName": "",
-  "directories": {
-  },
+  "directories": {},
   "main": "index.cjs",
   "module": "index.js",
   "browser": "index.js",
-  "files": ["index.js","index.cjs"],
+  "files": [
+    "index.js",
+    "index.cjs"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/somebee/imba-icons.git"

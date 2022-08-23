@@ -1,6 +1,6 @@
 {
   "name": "imba-codicons",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "codicons bundled for Imba",
   "author": "Sindre Aarsaether <sindre@identu.no>",
   "homepage": "https://github.com/somebee/imba-icons#readme",
@@ -9,7 +9,10 @@
   "main": "index.cjs",
   "module": "index.js",
   "browser": "index.js",
-  "files": ["index.js","index.cjs"],
+  "files": [
+    "index.js",
+    "index.cjs"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/somebee/imba-icons.git"
