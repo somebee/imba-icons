@@ -10,6 +10,10 @@
   "module": "index.js",
   "browser": "index.js",
   "exports": {
+    ".": {
+      "module": "./index.js",
+      "default": "./index.cjs"
+    },
     "./filled": {
       "module": "./index.js",
       "default": "./index.cjs"
