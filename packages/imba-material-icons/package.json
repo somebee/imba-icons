@@ -11,23 +11,23 @@
   "browser": "index.js",
   "exports": {
     ".": {
-      "module": "./index.js",
+      "import": "./index.js",
       "default": "./index.cjs"
     },
     "./filled": {
-      "module": "./index.js",
+      "import": "./index.js",
       "default": "./index.cjs"
     },
     "./outlined": {
-      "module": "./outlined.js",
+      "import": "./outlined.js",
       "default": "./outlined.cjs"
     },
     "./round": {
-      "module": "./round.js",
+      "import": "./round.js",
       "default": "./round.cjs"
     },
     "./two-tone": {
-      "module": "./two-tone.js",
+      "import": "./two-tone.js",
       "default": "./two-tone.cjs"
     }
   },
