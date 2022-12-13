@@ -7,27 +7,27 @@
   "license": "ISC",
   "sideEffects": false,
   "main": "index.cjs",
-  "module": "index.js",
-  "browser": "index.js",
+  "module": "index.mjs",
+  "browser": "index.mjs",
   "exports": {
     ".": {
-      "import": "./index.js",
+      "import": "./index.mjs",
       "default": "./index.cjs"
     },
     "./filled": {
-      "import": "./index.js",
+      "import": "./index.mjs",
       "default": "./index.cjs"
     },
     "./outlined": {
-      "import": "./outlined.js",
+      "import": "./outlined.mjs",
       "default": "./outlined.cjs"
     },
     "./round": {
-      "import": "./round.js",
+      "import": "./round.mjs",
       "default": "./round.cjs"
     },
     "./two-tone": {
-      "import": "./two-tone.js",
+      "import": "./two-tone.mjs",
       "default": "./two-tone.cjs"
     }
   },

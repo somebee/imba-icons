@@ -9,10 +9,10 @@
   "importName": "",
   "directories": {},
   "main": "index.cjs",
-  "module": "index.js",
-  "browser": "index.js",
+  "module": "index.mjs",
+  "browser": "index.mjs",
   "files": [
-    "index.js",
+    "index.mjs",
     "index.cjs"
   ],
   "repository": {
