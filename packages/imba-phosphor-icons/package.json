@@ -1,0 +1,24 @@
+{
+  "name": "imba-phosphor-icons",
+  "version": "1.0.0",
+  "description": "phosphor icons bundled for Imba",
+  "author": "Sindre Aarsaether <sindre@identu.no>",
+  "homepage": "https://github.com/somebee/imba-icons#readme",
+  "license": "ISC",
+  "sideEffects": false,
+  "main": "index.cjs",
+  "module": "index.mjs",
+  "browser": "index.mjs",
+  "files": [
+    "index.mjs",
+    "index.cjs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/somebee/imba-icons.git"
+  },
+  "scripts": {},
+  "bugs": {
+    "url": "https://github.com/somebee/imba-icons/issues"
+  }
+}

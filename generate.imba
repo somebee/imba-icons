@@ -32,14 +32,15 @@ def parsesvg str
 
 		
 
-	js = js.replace(/\,$/,'') + '},`' + content + '`'
+	# js = js.replace(/\,$/,'') + '},`' + content + '`'
 
 	# console.log 'content is',content,pars,attrs
 	return {
 		attributes: attrs
 		flags: []
 		content: content
-		#js: js
+		toString: do js.replace(/\,$/,'') + '},`' + this.content + '`'
+		# #js: js
 	}
 
 
@@ -80,20 +81,37 @@ let bundles = [{
 	subname: 'two-tone'
 	style: 'fill:currentColor'
 	svgo:yes
+},{
+	dir: 'phosphor-icons'
+	sourcedir: './sources/phosphor-icons/svg/Regular'
+	flags: 'phosphor'
+	ns: 'PHOSPHOR'
+	# subname: 'two-tone'
+	# style: 'stroke:currentColor'
+	svgo:yes
 }]
 
+let only = process.argv[2]
+
 for pkg in bundles
+	if only and !pkg.dir.match(only)
+		continue
+
 	let ns = pkg.ns
 	let dir = pkg.dir
-	let out = `const EXPORT_NS = "{ns}"\n\n`
 
-	out += fs.readFileSync('./base.js','utf8')
+
+	let mjs = `const EXPORT_NS = "{ns}"\n\n`
+	let cjs = `const EXPORT_NS = "{ns}"\n\n`
+	mjs += fs.readFileSync('./base.js','utf8')
+	cjs += fs.readFileSync('./base.js','utf8')
 
 	# continue unless dir == 'codicons'
 	let srcdir = pkg.sourcedir or "./sources/{dir}"
 	let files = fs.readdirSync(srcdir)
 	let outdir = "./packages/imba-{dir}"
 	let outname = pkg.subname or "index"
+
 	console.log files
 
 	for filename,i in files
@@ -113,11 +131,32 @@ for pkg in bundles
 				optim.info.width = parseInt(viewBox[1])
 				optim.info.height = parseInt(viewBox[2])
 
+		# console.log optim
+
+		let preview = datauri(outbody,pkg)
+
 		if pkg.style
 			# parsed.attributes.style = pkg.style
 			outbody = outbody.replace "<svg ",`<svg style="{pkg.style}" `
 
 		let parsed = parsesvg(outbody)
+
+		if ns == 'PHOSPHOR'
+			parsed.content = `<g class='stroke'>{parsed.content}</g>`
+			if filename.match(/play|pause|ghost/) # == 'play.svg'
+				let filledsrc = src.replace('Regular','Fill').replace('.svg','-fill.svg')
+				let filledraw = fs.readFileSync(filledsrc,'utf8')
+				let filled = parsesvg(filledraw)
+
+				parsed.content += `<g class='filled'>{filled.content}</g>`
+				parsed.flags.push('multi')
+				# outbody = outbody.replace('</svg>',`<g>{filled.content}</g></svg>`)
+			
+			# outbody = outbody.replace(/stroke-line(cap|join)="round"/g,'')
+			# outbody = outbody.replace(/stroke-width="16"/g,'')
+			yes
+			# outbody = outbody.replace(/stroke-line(cap|join)="round"/g,'')
+			
 
 		let name = filename.replace(/\.svg$/,'').replace(/[-\.]/g,'Ξ')
 		console.log src, body.length,optim.data.length,parsed.#js
@@ -130,13 +169,11 @@ for pkg in bundles
 		let outname = filename.replace(/\.svg$/,'') + '.svg'
 		# fs.writeFileSync("{outdir}/lib/{outname}",outbody)
 
-		let img = "![]({datauri(outbody,pkg)}|width=120,height=120)\n"
+		let img = "![]({preview}|width=120,height=120)\n"
 		
-		out += "/**\n * {dir} / {filename} ({optim.info.width}x{optim.info.height})\n * {img}\n **/\n"
-		# out += "# {img}\n"
-		# out += "export const {name} = import('./lib/{outname}')\n\n"
-		out += "export const {name} = /* @__PURE__ */ new Icon({parsed.#js});\n\n"
+		mjs += "/**\n * {dir} / {filename} ({optim.info.width}x{optim.info.height})\n * {img}\n **/\n"
+		mjs += "export const {name} = /* @__PURE__ */ new Icon({String(parsed)},'{pkg.flags or ''}');\n\n"
+		cjs += "exports.{name} = /* @__PURE__ */ new Icon({String(parsed)},'{pkg.flags or ''}');\n\n"
 
-	fs.writeFileSync("{outdir}/{outname}.js",out)
-	fs.writeFileSync("{outdir}/{outname}.cjs",out.replace(/export const /g,'exports.'))
-		
+	fs.writeFileSync("{outdir}/{outname}.mjs",mjs)
+	fs.writeFileSync("{outdir}/{outname}.cjs",cjs)
