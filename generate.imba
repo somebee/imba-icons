@@ -83,7 +83,7 @@ let bundles = [{
 	svgo:yes
 },{
 	dir: 'phosphor-icons'
-	sourcedir: './sources/phosphor-icons/svg/Regular'
+	sourcedir: './sources/phosphor-icons/svg/Duotone'
 	flags: 'phosphor'
 	ns: 'PHOSPHOR'
 	# subname: 'two-tone'
@@ -125,6 +125,7 @@ for pkg in bundles
 		let body = fs.readFileSync(src,'utf8')
 		let outbody = body
 		let optim = optimize(body, {multipass: false, removeViewBox: false})
+		let rawname = filename.replace(/(-duotone)?\.svg$/,'')
 
 		if !optim.info.width
 			if let viewBox = body.match(/viewBox="0 0 (\d+) (\d+)"/)
@@ -144,7 +145,7 @@ for pkg in bundles
 		if ns == 'PHOSPHOR'
 			parsed.content = `<g class='stroke'>{parsed.content}</g>`
 			if filename.match(/play|pause|ghost/) # == 'play.svg'
-				let filledsrc = src.replace('Regular','Fill').replace('.svg','-fill.svg')
+				let filledsrc = src.replace(/Regular|Duotone/,'Fill').replace(/(-duotone)?\.svg/,'-fill.svg')
 				let filledraw = fs.readFileSync(filledsrc,'utf8')
 				let filled = parsesvg(filledraw)
 
@@ -158,7 +159,7 @@ for pkg in bundles
 			# outbody = outbody.replace(/stroke-line(cap|join)="round"/g,'')
 			
 
-		let name = filename.replace(/\.svg$/,'').replace(/[-\.]/g,'Ξ')
+		let name = rawname.replace(/[-\.]/g,'Ξ')
 		console.log src, body.length,optim.data.length,parsed.#js
 
 		name = name.replace(/Ξ/g,'_').toUpperCase!
@@ -166,13 +167,14 @@ for pkg in bundles
 		if !name.match(/^[A-Z]/)
 			name = "_" + name
 
-		let outname = filename.replace(/\.svg$/,'') + '.svg'
+		let outname = rawname + '.svg'
 		# fs.writeFileSync("{outdir}/lib/{outname}",outbody)
 
 		let img = "![]({preview}|width=120,height=120)\n"
 		
 		mjs += "/**\n * {dir} / {filename} ({optim.info.width}x{optim.info.height})\n * {img}\n **/\n"
 		mjs += "export const {name} = /* @__PURE__ */ new Icon({String(parsed)},'{pkg.flags or ''}');\n\n"
+		cjs += "/**\n * {dir} / {filename} ({optim.info.width}x{optim.info.height})\n * {img}\n **/\n"
 		cjs += "exports.{name} = /* @__PURE__ */ new Icon({String(parsed)},'{pkg.flags or ''}');\n\n"
 
 	fs.writeFileSync("{outdir}/{outname}.mjs",mjs)
