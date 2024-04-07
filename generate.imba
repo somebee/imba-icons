@@ -83,11 +83,25 @@ let bundles = [{
 	svgo:yes
 },{
 	dir: 'phosphor-icons'
-	sourcedir: './sources/phosphor-icons/svg/Duotone'
+	sourcedir: './sources/phosphor-icons/svg/Regular'
 	flags: 'phosphor'
 	ns: 'PHOSPHOR'
 	# subname: 'two-tone'
 	# style: 'stroke:currentColor'
+	svgo:yes
+},{
+	dir: 'phosphor-icons'
+	sourcedir: './sources/phosphor-icons/svg/Fill'
+	flags: 'phosphor filled'
+	subname: 'filled'
+	ns: 'PHOSPHOR'
+	svgo:yes
+},{
+	dir: 'phosphor-icons'
+	sourcedir: './sources/phosphor-icons/svg/Duotone'
+	flags: 'phosphor duotone'
+	subname: 'duotone'
+	ns: 'PHOSPHOR'
 	svgo:yes
 }]
 
@@ -125,7 +139,7 @@ for pkg in bundles
 		let body = fs.readFileSync(src,'utf8')
 		let outbody = body
 		let optim = optimize(body, {multipass: false, removeViewBox: false})
-		let rawname = filename.replace(/(-duotone)?\.svg$/,'')
+		let rawname = filename.replace(/(-duotone|-fill)?\.svg$/,'')
 
 		if !optim.info.width
 			if let viewBox = body.match(/viewBox="0 0 (\d+) (\d+)"/)
@@ -144,19 +158,21 @@ for pkg in bundles
 
 		if ns == 'PHOSPHOR'
 			parsed.content = `<g class='stroke'>{parsed.content}</g>`
-			if filename.match(/play|pause|ghost/) # == 'play.svg'
+			if false # filename.match(/play|pause|ghost/) or false # == 'play.svg'
 				let filledsrc = src.replace(/Regular|Duotone/,'Fill').replace(/(-duotone)?\.svg/,'-fill.svg')
 				let filledraw = fs.readFileSync(filledsrc,'utf8')
 				let filled = parsesvg(filledraw)
 
 				parsed.content += `<g class='filled'>{filled.content}</g>`
 				parsed.flags.push('multi')
+
 				# outbody = outbody.replace('</svg>',`<g>{filled.content}</g></svg>`)
 			
 			# outbody = outbody.replace(/stroke-line(cap|join)="round"/g,'')
 			# outbody = outbody.replace(/stroke-width="16"/g,'')
 			yes
 			# outbody = outbody.replace(/stroke-line(cap|join)="round"/g,'')
+			parsed.content = parsed.content.replace(/<rect width="256" height="256" fill="none"\/>/g,'')
 			
 
 		let name = rawname.replace(/[-\.]/g,'Ξ')

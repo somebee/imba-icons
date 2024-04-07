@@ -5,7 +5,8 @@
     "author": "Sindre Aarsaether <sindre@identu.no>",
     "sideEffects": false,
     "scripts": {
-        "build": "imba generate.imba"
+        "build": "imba generate.imba",
+        "build-phosphor": "imba generate.imba phosphor"
     },
     "devDependencies": {
         "imba": "^2.0.0-alpha.188",
