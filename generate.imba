@@ -157,7 +157,7 @@ for pkg in bundles
 		let parsed = parsesvg(outbody)
 
 		if ns == 'PHOSPHOR'
-			parsed.content = `<g class='stroke'>{parsed.content}</g>`
+			# parsed.content = `<g class='stroke'>{parsed.content}</g>`
 			if false # filename.match(/play|pause|ghost/) or false # == 'play.svg'
 				let filledsrc = src.replace(/Regular|Duotone/,'Fill').replace(/(-duotone)?\.svg/,'-fill.svg')
 				let filledraw = fs.readFileSync(filledsrc,'utf8')
