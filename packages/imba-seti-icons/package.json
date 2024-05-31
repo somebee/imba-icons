@@ -15,6 +15,12 @@
     "index.mjs",
     "index.cjs"
   ],
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "default": "./index.cjs"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/somebee/imba-icons.git"
