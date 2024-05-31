@@ -1,6 +1,6 @@
 {
   "name": "imba-phosphor-icons",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "phosphor icons bundled for Imba",
   "author": "Sindre Aarsaether <sindre@identu.no>",
   "homepage": "https://github.com/somebee/imba-icons#readme",
@@ -16,7 +16,6 @@
     "filled.cjs",
     "duotone.mjs",
     "duotone.cjs"
-
   ],
   "exports": {
     ".": {
